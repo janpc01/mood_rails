@@ -1,31 +1,33 @@
 class ItemsController < ApplicationController
+  before_action :authenticate_user!
+  before_action :set_board
   before_action :set_item, only: %i[ show edit update destroy ]
 
-  # GET /items or /items.json
+  # GET /boards/:board_id/items
   def index
-    @items = Item.all
+    @items = @board.items
   end
 
-  # GET /items/1 or /items/1.json
+  # GET /boards/:board_id/items/:id
   def show
   end
 
-  # GET /items/new
+  # GET /boards/:board_id/items/new
   def new
-    @item = Item.new
+    @item = @board.items.new
   end
 
-  # GET /items/1/edit
+  # GET /boards/:board_id/items/:id/edit
   def edit
   end
 
-  # POST /items or /items.json
+  # POST /boards/:board_id/items
   def create
-    @item = Item.new(item_params)
+    @item = @board.items.new(item_params)
 
     respond_to do |format|
       if @item.save
-        format.html { redirect_to @item, notice: "Item was successfully created." }
+        format.html { redirect_to [@board, @item], notice: "Item was successfully created." }
         format.json { render :show, status: :created, location: @item }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -34,11 +36,11 @@ class ItemsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /items/1 or /items/1.json
+  # PATCH/PUT /boards/:board_id/items/:id
   def update
     respond_to do |format|
       if @item.update(item_params)
-        format.html { redirect_to @item, notice: "Item was successfully updated." }
+        format.html { redirect_to [@board, @item], notice: "Item was successfully updated." }
         format.json { render :show, status: :ok, location: @item }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -47,24 +49,26 @@ class ItemsController < ApplicationController
     end
   end
 
-  # DELETE /items/1 or /items/1.json
+  # DELETE /boards/:board_id/items/:id
   def destroy
     @item.destroy!
 
     respond_to do |format|
-      format.html { redirect_to items_path, status: :see_other, notice: "Item was successfully destroyed." }
+      format.html { redirect_to board_items_path(@board), status: :see_other, notice: "Item was successfully destroyed." }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_item
-      @item = Item.find(params.expect(:id))
+    def set_board
+      @board = Board.find(params[:board_id])
     end
 
-    # Only allow a list of trusted parameters through.
+    def set_item
+      @item = @board.items.find(params[:id])
+    end
+
     def item_params
-      params.expect(item: [ :content, :position_x, :position_y, :width, :height, :file, :link, :board_id ])
+      params.require(:item).permit(:content, :position_x, :position_y, :width, :height, :file, :link)
     end
 end

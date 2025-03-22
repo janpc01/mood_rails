@@ -1,4 +1,5 @@
 class BoardsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_board, only: %i[ show edit update destroy ]
 
   # GET /boards or /boards.json
@@ -8,6 +9,7 @@ class BoardsController < ApplicationController
 
   # GET /boards/1 or /boards/1.json
   def show
+    @item = Item.new
   end
 
   # GET /boards/new
