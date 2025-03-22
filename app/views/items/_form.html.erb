@@ -1,0 +1,57 @@
+<%= form_with(model: item, class: "contents") do |form| %>
+  <% if item.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
+      <h2><%= pluralize(item.errors.count, "error") %> prohibited this item from being saved:</h2>
+
+      <ul class="list-disc ml-6">
+        <% item.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="my-5">
+    <%= form.label :content %>
+    <%= form.textarea :content, rows: 4, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": item.errors[:content].none?, "border-red-400 focus:outline-red-600": item.errors[:content].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :position_x %>
+    <%= form.number_field :position_x, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": item.errors[:position_x].none?, "border-red-400 focus:outline-red-600": item.errors[:position_x].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :position_y %>
+    <%= form.number_field :position_y, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": item.errors[:position_y].none?, "border-red-400 focus:outline-red-600": item.errors[:position_y].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :width %>
+    <%= form.number_field :width, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": item.errors[:width].none?, "border-red-400 focus:outline-red-600": item.errors[:width].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :height %>
+    <%= form.number_field :height, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": item.errors[:height].none?, "border-red-400 focus:outline-red-600": item.errors[:height].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :file %>
+    <%= form.text_field :file, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": item.errors[:file].none?, "border-red-400 focus:outline-red-600": item.errors[:file].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :link %>
+    <%= form.text_field :link, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": item.errors[:link].none?, "border-red-400 focus:outline-red-600": item.errors[:link].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :board_id %>
+    <%= form.text_field :board_id, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": item.errors[:board_id].none?, "border-red-400 focus:outline-red-600": item.errors[:board_id].any?}] %>
+  </div>
+
+  <div class="inline">
+    <%= form.submit class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
+  </div>
+<% end %>
